@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="Description" content="Put your description here.">
+  <base href="/">
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-color: #ededed;
+    }
+  </style>
+  <title>sports-card</title>
+</head>
+
+<body>
+  <div class='buttons'>
+    <button class="addToButton"> Add Onto </button>
+    <button class="deleteButton"> Delete Last</button>
+    <button class="changeBackgroundButton" > Change Background</button>
+    <button class="changeHeadingButton" > Change Heading</button>
+    <button data-toggle-button > Toggle Details </button>
+  </div>
+  <div id="app">
+    <sports-card></sports-card>
+  </div>
+
+  <script type="module" src="./src/sports-card.js"></script>
+  <script> 
+  
+
+document.querySelector('.addToButton').addEventListener('click', function(e) {
+  const clone = document.querySelector('sports-card').cloneNode();
+  document.querySelector('#app').appendChild(clone);
+});
+
+document.querySelector('.deleteButton').addEventListener('click', function(e) {
+      const elem = document.querySelector('#app :last-child');
+      if(document.querySelector('#app :last-child') !== document.querySelector('sports-card'))
+      {
+        elem.remove();
+      }
+});
+
+
+document.querySelector('.changeBackgroundButton').addEventListener('click', function(e) {
+  let color = prompt("Color Hingle");
+  if(color){
+     document.querySelector('sports-card').color = color;
+  }
+});
+
+document.querySelector(".changeHeadingButton").addEventListener('click', function(e) {
+  let name = prompt("Name Hingle");
+  if(name){
+     document.querySelector("sports-card").name = name;
+  }
+  });
+
+  
+
+
+document.querySelector('button[data-toggle-button]').addEventListener('click', (e) => {
+  const details = document.querySelector('sports-card').shadowRoot.querySelector('details');
+  if(details.getAttribute('open'))
+    { 
+      details.removeAttribute('open')
+    }
+  else{
+     details.setAttribute('open','open');
+  }
+});
+                                                                     
+  </script>
+</body>
+
+</html>
+
