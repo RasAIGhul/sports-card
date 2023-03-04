@@ -84,7 +84,7 @@ export class SportsCard extends LitElement {
           ${this.position}
         </h1>
         <div class="outside">
-          <details class ='details'>
+          <details class ='details' open>
             <summary>Details</summary>
             <ul class="information">
               <p>
