@@ -14,6 +14,24 @@
       padding: 0;
       font-family: sans-serif;
       background-color: #ededed;
+      --sports-card-wrapper-padding: 20px;
+      --sports-card-wrapper-margin: 20px;
+    }
+    sports-card[accent-color="red"] {
+      --sports-card-accent-color: red;
+      --sports-card-wrapper-border-color: 8px solid white;
+    }
+    sports-card[accent-color="white"] {
+      --sports-card-accent-color: white;
+      --sports-card-wrapper-border-color: 8px solid #1B111D;
+    }
+    sports-card[accent-color="orange"] {
+      --sports-card-accent-color: #FF3C19;
+      --sports-card-wrapper-border-color: 8px solid #1B111D;
+    }
+    sports-card[accent-color="black"] {
+      --sports-card-accent-color: #1B111D;
+      --sports-card-wrapper-border-color: 8px solid #FF3C19;
     }
   </style>
   <title>sports-card</title>
@@ -25,56 +43,59 @@
     <button class="deleteButton"> Delete Last</button>
     <button class="changeBackgroundButton" > Change Background</button>
     <button class="changeHeadingButton" > Change Heading</button>
-    <button data-toggle-button > Toggle Details </button>
+    <button class ="details">Toggle Details</button>
   </div>
   <div id="app">
-    <sports-card></sports-card>
+
+    <sports-card opened topTitle = "Hingle McCringleberry" imgSource = "https://i.imgur.com/yLSPjIB.png">
+        Hingle McCringleberry is the 2012 Heisman-winning tight end out of Penn State University, 
+        selected No. 1 overall by the Rhinos in the 2016 NFL Draft. He currently holds the record 
+        for the most excessive celebrations in a single season with 74, coupled with over 250 pumps.
+    </sports-card>
   </div>
 
   <script type="module" src="./src/sports-card.js"></script>
   <script> 
   
+document.body.addEventListener('opened-changed', function(e) {
+  if (e.target === document.querySelector('sports-card'))
+  {
+    console.log('opened-changed',e.detail,e.target);
+    document.querySelector('.details').innerText = e.detail.value ? 'Close Details' : 'Open Details';
+  }
+});
 
 document.querySelector('.addToButton').addEventListener('click', function(e) {
-  const clone = document.querySelector('sports-card').cloneNode();
+  const clone = document.querySelector('sports-card').cloneNode(true);
   document.querySelector('#app').appendChild(clone);
 });
 
 document.querySelector('.deleteButton').addEventListener('click', function(e) {
+  console.log(document.querySelector('#app :last-child'));
       const elem = document.querySelector('#app :last-child');
-      if(document.querySelector('#app :last-child') !== document.querySelector('sports-card'))
+      if(elem !== document.querySelector('sports-card'))
       {
         elem.remove();
       }
 });
 
-
 document.querySelector('.changeBackgroundButton').addEventListener('click', function(e) {
-  let color = prompt("Color Hingle");
-  if(color){
-     document.querySelector('sports-card').color = color;
-  }
+     const colors = ['red', 'white', 'orange', 'black'];
+     const randomColor = colors[Math.floor(Math.random() * colors.length)];
+     document.querySelector("sports-card").accentColor = randomColor;
+     console.log(document.querySelector("sports-card").accentColor);
 });
 
 document.querySelector(".changeHeadingButton").addEventListener('click', function(e) {
   let name = prompt("Name Hingle");
   if(name){
-     document.querySelector("sports-card").name = name;
+     document.querySelector("sports-card").topTitle = name;
   }
-  });
+});
 
-  
-
-
-document.querySelector('button[data-toggle-button]').addEventListener('click', (e) => {
-  const details = document.querySelector('sports-card').shadowRoot.querySelector('details');
-  if(details.getAttribute('open'))
-    { 
-      details.removeAttribute('open')
-    }
-  else{
-     details.setAttribute('open','open');
-  }
+document.querySelector('.details').addEventListener('click', (e) => {
+  const card = document.querySelector("sports-card");
+  card.opened = !card.opened;
 });
                                                                      
   </script>
